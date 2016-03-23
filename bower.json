@@ -14,16 +14,21 @@
         "tests"
     ],
     "dependencies": {
-
         "angular": "~1.5.2",
         "bootstrap": "~3.3.6",
-        "jquery": "~2.2.2"
+        "jquery": "~2.2.2",
+        "font-awesome": "~4.5.0"
     },
     "overrides": {
         "bootstrap": {
             "main": [
                 "dist/css//bootstrap.css",
                 "dist/js/bootstrap.js"
+            ]
+        },
+        "font-awesome": {
+            "main": [
+                "css/font-awesome.css"
             ]
         }
     }

@@ -66,3 +66,16 @@ gulp.task('wiredep', function () {
 });
 
 gulp.task('build', ['bower-files', 'wiredep'])
+
+
+var angularFilesort = require('gulp-angular-filesort'),
+    inject = require('gulp-inject');
+ 
+gulp.task('inject', function () {
+gulp.src('./index.html')
+  .pipe(inject(
+    gulp.src(['*.js', '!./main.js', '!gulpfile.js']) // gulp-angular-filesort depends on file contents, so don't use {read: false} here 
+      .pipe(angularFilesort())
+    ))
+  .pipe(gulp.dest('./'));
+});

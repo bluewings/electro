@@ -25,6 +25,7 @@
   "devDependencies": {
     "electron-prebuilt": "^0.36.0",
     "gulp": "^3.9.1",
+    "gulp-angular-filesort": "^1.1.1",
     "gulp-beautify": "^2.0.0",
     "gulp-bower-files": "^0.2.7",
     "gulp-inject": "^4.0.0",
