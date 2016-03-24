@@ -1,35 +1,35 @@
 {
-    "name": "james-rhodes",
-    "version": "0.0.0",
-    "authors": [
-        "Albert Cha <darth.vader@navercorp.com>"
-    ],
-    "license": "MIT",
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "public/bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "angular": "~1.5.2",
-        "bootstrap": "~3.3.6",
-        "jquery": "~2.2.2",
-        "font-awesome": "~4.5.0"
+  "name": "james-rhodes",
+  "version": "0.0.0",
+  "authors": [
+    "Albert Cha <darth.vader@navercorp.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0",
+    "angular": "~1.5.2",
+    "angular-ui-router": "^0.2.18"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css//bootstrap.css"
+      ]
     },
-    "overrides": {
-        "bootstrap": {
-            "main": [
-                "dist/css//bootstrap.css",
-                "dist/js/bootstrap.js"
-            ]
-        },
-        "font-awesome": {
-            "main": [
-                "css/font-awesome.css"
-            ]
-        }
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.css"
+      ]
     }
+  }
 }

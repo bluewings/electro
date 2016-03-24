@@ -1,0 +1,13 @@
+{
+  "name": "electron-boilerplate",
+  "productName": "Electron Boilerplate",
+  "identifier": "com.example.electron-boilerplate",
+  "description": "Starter for your Electron application. Out of the box ready for serious stuff.",
+  "version": "0.1.0",
+  "author": "Mr Gumby",
+  "copyright": "© 2016, your company here",
+  "main": "main.js",
+  "dependencies": {
+    "electron-reload": "^0.2.0"
+  }
+}
