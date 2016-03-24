@@ -10,11 +10,23 @@ div
     //- .pull-right
 
     form.navbar-form.navbar-left
-      input.form-control(type='text', placeholder='Search...')
+      input.form-control(type='text', placeholder='Search...',
+        ng-model='vm.input.url', ng-model-options='{ updateOn: "blur" }')
 
     form.navbar-form.navbar-right
-      button.btn.btn-default test
-      button.btn.btn-default test
+      button.btn.btn-default(ng-click='vm.save()')
+        i.fa.fa-fw.fa-floppy-o
+      button.btn.btn-default(ng-click='vm.capture()')
+        i.fa.fa-fw.fa-camera-retro
+
+  br
+  br
+  br
+  br
+  br
+  p test
+  //- br
+  pre {{ vm | json }}
       //- input.form-control(type='text', placeholder='Search...')
 
       //- input.form-control

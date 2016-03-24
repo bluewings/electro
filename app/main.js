@@ -6,11 +6,15 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
+// var screenshot = require('electron-screenshot-service')
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 require('electron-reload')(__dirname);
+
+// require('./lib/capture');
 
 function createWindow () {
   // Create the browser window.
@@ -29,6 +33,54 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+
+  var ipcMain = require('electron').ipcMain;
+
+  ipcMain.on('capture-request', function(event, arg) {
+    console.log('get message from window')
+    console.log(arg);
+    // 현재화면을 그대로 캡쳐
+    // mainWindow.capturePage(arg.rect, function(img) {
+    //   event.sender.send('capture-response', {
+    //     size: img.getSize(),
+    //     dataURL: img.toDataURL()
+    //   });
+    // });
+    // 내부적으로 띄워서 캡쳐
+    // screenshot({
+    //   url: arg.url,
+    //   width: 375,
+    //   height: 600
+    //   // height: arg.height
+    // }).then(function(img) {
+    //   console.log('response sent')
+    //   event.sender.send('capture-response', img)
+    //   console.log('response sent done')
+    //   return
+    // });
+
+    var screenshot = require('electron-screenshot-service');
+
+
+
+    screenshot({
+      url: arg.url,
+      width: 375,
+      height: 600
+    }).then(function(img) {
+      console.log('response sent')
+      event.sender.send('capture-response', img);
+      console.log('response sent done')
+      // fs.writeFile('./out.png', img.data, function(err) {
+      //   screenshot.close();
+      // });
+    });
+
+    console.log('after that')
+
+  });
+
 }
 
 // This method will be called when Electron has finished

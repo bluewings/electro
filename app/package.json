@@ -8,6 +8,8 @@
   "copyright": "© 2016, your company here",
   "main": "main.js",
   "dependencies": {
-    "electron-reload": "^0.2.0"
+    "electron-reload": "^0.2.0",
+    "electron-screenshot-service": "^2.3.0",
+    "fs-jetpack": "^0.7.3"
   }
 }
