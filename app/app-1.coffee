@@ -1,4 +1,0 @@
-
-app = angular.module 'test' 
-
- 
