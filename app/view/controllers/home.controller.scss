@@ -1,3 +1,14 @@
 h1 {
   background-color:silver;
 }
+
+.navbar-default {
+  margin-bottom:0;
+  .navbar-form {
+    border:0;
+    padding-top:0;
+    padding-bottom:0;
+    margin-left:0;
+    margin-right:0;
+  }
+}
