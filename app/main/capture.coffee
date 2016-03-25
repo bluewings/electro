@@ -15,12 +15,6 @@ ipcMain.on 'capture-request', (event, arg = {}) ->
 
   for i in [0...options.count]
     do (i) ->
-      console.log {
-        url: options.url
-        width: options.width
-
-        delay: i
-      }
       promises.push screenshot(
         url: options.url
         width: options.width

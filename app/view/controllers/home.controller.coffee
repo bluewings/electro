@@ -3,15 +3,64 @@
 ipcRenderer = require('electron').ipcRenderer
 
 angular.module 'electron-app' 
-.controller 'HomeController', ($scope, $element, $timeout, util) ->
+.controller 'HomeController', ($scope, $element, $window, $document, $timeout, devices) ->
   vm = @
 
-  thumbHeight = 100
+  win = $($window)
+
+  thumbHeight = 80
+
+  vm.devices = devices
+
+  vm.status = {}
+
+  resizeHandler = ->
+    # before = JSON.stringify(vm.status)
+    # vm.status.cHeight = $document[0].documentElement.clientHeight
+    vm.status = 
+      clientHeight: $document[0].documentElement.clientHeight
+      navbarTopHeight: $element.find('.navbar-fixed-top').outerHeight()
+      navbarBottomHeight: $element.find('.navbar-fixed-bottom').outerHeight()
+
+    vm.status.marginTop = vm.status.navbarTopHeight
+    vm.status.contentHeight = vm.status.clientHeight - vm.status.navbarTopHeight - vm.status.navbarBottomHeight
+    # $element.find('.navbar-fixed-bottom')
+    # afterbefore = JSON.stringify(vm.status)
+    return
+
+  resizeHandler()
+
+  unbinds = []
+  unbinds.push win.$on 'resize', ->
+    $timeout resizeHandler
+    return
+
+  $scope.$on '$destroy', ->
+    for unbind in unbinds
+      unbind()
+    return
+
+  vm.rates = [25, 50, 75, 100, 125, 150]
 
   vm.input =
     url: 'http://m.naver.com'
     width: 375
     height: 500
+
+  vm.setDeviceSize = (device) ->
+    vm.input.width = device.screen[0]
+    vm.input.height = device.screen[1]
+    return
+
+  vm.setRate = (rate) ->
+    vm.rate = rate
+    return
+
+  vm.rotate = ->
+    width = vm.input.width
+    vm.input.width = vm.input.height
+    vm.input.height = width
+    return
 
   vm.select = (screenshot) ->
     vm.selected = screenshot
@@ -19,25 +68,25 @@ angular.module 'electron-app'
 
   thumbList = $element.find('.thumb-list')
 
-  vm.thumbs = []
+  vm.screenshots = []
 
   ipcRenderer.on 'capture-response', (arg, images) ->
     # console.log(response);
-    vm.thumbs = []
+    vm.screenshots = []
     $timeout ->
       for image in images
 
         blob = new Blob [image.data], { type: 'image/png' }
         # url = URL.createObjectURL(blob)
         thumbHeight
-        vm.thumbs.push
+        vm.screenshots.push
           url: URL.createObjectURL(blob)
           size: image.size
-          thumbSize:
+          thumb:
             width: image.size.width * (thumbHeight / image.size.height)
             height: thumbHeight
 
-
+      vm.select vm.screenshots[0]
       return
 
 
@@ -75,9 +124,16 @@ angular.module 'electron-app'
 
   vm.capture = ->
     console.log 'send done'
+    vm.selected = null
+    vm.screenshots = []
     ipcRenderer.send 'capture-request', vm.input
     console.log 'send done 1'
     return
+
+  setTimeout ->
+    vm.capture()
+    return
+  , 500
 
   vm.save = ->
     return

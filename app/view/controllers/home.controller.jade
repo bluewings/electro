@@ -1,4 +1,4 @@
-div
+div(ng-style='{ marginTop: vm.status.marginTop, height: vm.status.contentHeight }')
 
   //- h1 home
   //- span {{ vm.test }}
@@ -13,37 +13,102 @@ div
       input.form-control(type='text', placeholder='Search...',
         ng-model='vm.input.url', ng-model-options='{ updateOn: "blur" }')
 
-      input.form-control(type='number', placeholder='width',
-        ng-model='vm.input.width')
 
-      input.form-control(type='number', placeholder='height',
-        ng-model='vm.input.height')
+
+      //- .btn-group.dropdown(uib-dropdown='', is-open='status.isopen', style='')
+        button#single-button.btn.btn-default.dropdown-toggle(type='button', uib-dropdown-toggle='', ng-disabled='disabled', aria-haspopup='true', aria-expanded='false')
+          | Button dropdown 
+          span.caret
+        ul.dropdown-menu.device-list(uib-dropdown-menu='', role='menu', aria-labelledby='single-button')
+          li(role='menuitem')
+            a(href='#') Separated link
+          li.divider
+          li(role='menuitem', ng-repeat='device in vm.devices')
+            a(href='', ng-click='vm.setDeviceSize(device)')
+              i.fa.fa-fw(ng-class='{ "fa-mobile": device.type === "phone", \
+                "fa-tablet": device.type === "tablet", \
+                "fa-desktop": device.type !== "phone" && device.type !== "tablet" }')
+              span {{ device.title }}
+          //- li(role='menuitem')
+          //-   a(href='#') Another action
+          //- li(role='menuitem')
+          //-   a(href='#') Something else here
+      //- span
+      .form-group(uib-dropdown='')
+        .input-group.input-screen-size
+          input.form-control.no-border-right(type='number', placeholder='width', ng-model='vm.input.width')
+          span.input-group-btn
+            button.btn.btn-default.btn-rotate(ng-click='vm.rotate()') X
+          input.form-control.no-border-left(type='number', placeholder='height', ng-model='vm.input.height')
+          span.input-group-btn
+            button.btn.btn-default(type='button', uib-dropdown-toggle='', aria-haspopup='true', aria-expanded='false')
+              span.caret
+
+        ul.dropdown-menu.device-list(uib-dropdown-menu='', role='menu', aria-labelledby='single-button')
+          li(role='menuitem', ng-repeat='device in vm.devices')
+            a(href='', ng-click='vm.setDeviceSize(device)')
+              i.fa.fa-fw(ng-class='{ "fa-mobile": device.type === "phone", \
+                "fa-tablet": device.type === "tablet", \
+                "fa-desktop": device.type !== "phone" && device.type !== "tablet" }')
+              span {{ device.title }}
+
+      button.btn.btn-default(ng-click='vm.capture()')
+        i.fa.fa-fw.fa-camera-retro
+
+      .form-group(uib-dropdown='')
+        .input-group.input-screen-rate
+          input.form-control.no-border-right(type='number', placeholder='rate', ng-model='vm.rate')
+          //- span.input-group-btn
+          //-   button.btn.btn-default.btn-rotate(ng-click='vm.rotate()') X
+          //- input.form-control.no-border-left(type='number', placeholder='height', ng-model='vm.input.height')
+          span.input-group-btn
+            button.btn.btn-default(type='button', uib-dropdown-toggle='', aria-haspopup='true', aria-expanded='false')
+              span.caret
+
+        ul.dropdown-menu.device-list(uib-dropdown-menu='', role='menu', aria-labelledby='single-button')
+          li(role='menuitem', ng-repeat='rate in vm.rates')
+            a(href='', ng-click='vm.setRate(rate)')
+              | {{ rate }}%
+            //- i.fa.fa-refresh
+
+
+      //- input.form-control.input-sm(type='text', value='test1')
+      
+      //- input.form-control.input-sm(type='text', value='test2')
+
+
+
 
     form.navbar-form.navbar-right
       button.btn.btn-default(ng-click='vm.save()')
         i.fa.fa-fw.fa-floppy-o
-      button.btn.btn-default(ng-click='vm.capture()')
-        i.fa.fa-fw.fa-camera-retro
 
-  br
-  br
+
+
+
+  //- pre {{ vm.devices | json }}
 
   div(ng-if='vm.selected')
     img(ng-src='{{ vm.selected.url }}')
 
-  p testsdfdsf
+
+  pre {{ vm.status | json }}
+
+
+  //- p testsdfdsf
   //- br
   //- pre {{ vm | json }}
-  nav.navbar.navbar-default.navbar-fixed-bottom
+  nav.navbar.navbar-inverse.navbar-fixed-bottom
+    ul.thumb-list
+      li(ng-repeat='screenshot in vm.screenshots',
+        ng-class='{ active: vm.selected == screenshot }',
+        ng-click='vm.select(screenshot)')
+        img(ng-src='{{ screenshot.url }}', ng-style='{ width: screenshot.thumb.width, height: screenshot.thumb.height }')
+        //- input.form-control(type='text', placeholder='Search...')
 
-    span(ng-repeat='thumb in vm.thumbs',
-      ng-click='vm.select(thumb)')
-      img(ng-src='{{ thumb.url }}', ng-style='{ width: thumb.thumbSize.width, height: thumb.thumbSize.height }')
-      //- input.form-control(type='text', placeholder='Search...')
-
-      //- input.form-control
-      //- .navbar-header
-      //-   button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+        //- input.form-control
+        //- .navbar-header
+        //-   button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
       //-     span.sr-only Toggle navigation
       //-     span.icon-bar
       //-     span.icon-bar
