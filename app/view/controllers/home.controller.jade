@@ -9,9 +9,15 @@ div
     //- .container-fluid
     //- .pull-right
 
-    form.navbar-form.navbar-left
+    form.navbar-form.navbar-left.form-inline
       input.form-control(type='text', placeholder='Search...',
         ng-model='vm.input.url', ng-model-options='{ updateOn: "blur" }')
+
+      input.form-control(type='number', placeholder='width',
+        ng-model='vm.input.width')
+
+      input.form-control(type='number', placeholder='height',
+        ng-model='vm.input.height')
 
     form.navbar-form.navbar-right
       button.btn.btn-default(ng-click='vm.save()')
@@ -21,12 +27,18 @@ div
 
   br
   br
-  br
-  br
-  br
-  p test
+
+  div(ng-if='vm.selected')
+    img(ng-src='{{ vm.selected.url }}')
+
+  p testsdfdsf
   //- br
-  pre {{ vm | json }}
+  //- pre {{ vm | json }}
+  nav.navbar.navbar-default.navbar-fixed-bottom
+
+    span(ng-repeat='thumb in vm.thumbs',
+      ng-click='vm.select(thumb)')
+      img(ng-src='{{ thumb.url }}', ng-style='{ width: thumb.thumbSize.width, height: thumb.thumbSize.height }')
       //- input.form-control(type='text', placeholder='Search...')
 
       //- input.form-control

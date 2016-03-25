@@ -1,6 +1,6 @@
 'use strict';
 
-var $, del, dest, destDir, eventStream, excludeNodes, getHashKey, gulp, mainBowerFiles, path, runSequence, src, srcDir, templateReplace;
+var $, del, dest, destDir, eventStream, excludeNodes, fsJetpack, getHashKey, gulp, mainBowerFiles, path, runSequence, src, srcDir, templateReplace;
 
 gulp = require('gulp');
 path = require('path');
@@ -8,6 +8,7 @@ del = require('del');
 eventStream = require('event-stream');
 runSequence = require('run-sequence');
 mainBowerFiles = require('main-bower-files');
+fsJetpack = require('fs-jetpack');
 $ = require('gulp-load-plugins')();
 
 srcDir = path.join(__dirname, '..', 'app');
@@ -26,10 +27,10 @@ src = {
     main: path.join(srcDir, 'app.scss'),
     inject: [path.join(srcDir, '**/*.scss'), '!' + path.join(srcDir, 'app.scss'), excludeNodes]
   },
-  copy: {
-    nodeModules: path.join(srcDir, 'node_modules/**'),
-    packageJson: path.join(srcDir, 'package.json')
-  },
+  copy: [
+    path.join(srcDir, 'node_modules/**'),
+    path.join(srcDir, 'package.json')
+  ],
   bower: path.join(__dirname, '..', 'bower.json')
 };
 
@@ -41,6 +42,7 @@ dest = {
   scripts: [
     path.join(destDir, '**/*.js'),
     '!' + path.join(destDir, 'main.js'),
+    '!' + path.join(destDir, 'main/**'),
     '!' + path.join(destDir, 'lib/**'),
     '!' + path.join(destDir, 'vendor/**'),
     '!' + path.join(destDir, 'node_modules/**')
@@ -114,7 +116,6 @@ gulp.task('styles', function () {
 gulp.task('scripts:coffee', function () {
   return gulp.src(src.coffee)
     .pipe($.plumber())
-    // .pipe($.sourcemaps.init())
     .pipe($.coffee())
     .pipe(gulp.dest(destDir));
 });
@@ -185,21 +186,21 @@ gulp.task('inject:scss', function () {
     .pipe(gulp.dest(srcDir));
 });
 
-gulp.task('copy:misc', function () {
-  gulp.src(src.copy.nodeModules)
-    .pipe(gulp.dest(path.join(destDir, 'node_modules')));
-  gulp.src(src.copy.packageJson)
-    .pipe(gulp.dest(destDir));
-});
-
 gulp.task('copy:vendor', function () {
-  gulp.src(mainBowerFiles())
+  return gulp.src(mainBowerFiles())
     .pipe(gulp.dest(dest.vendor));
 });
 
-gulp.task('fonts', function () {
-  gulp.src(mainBowerFiles('**/*.{eot,svg,ttf,woff,woff2}'))
+gulp.task('copy:fonts', function () {
+  return gulp.src(mainBowerFiles('**/*.{eot,svg,ttf,woff,woff2}'))
     .pipe(gulp.dest(dest.fonts));
+});
+
+gulp.task('copy:misc', function () {
+  return fsJetpack.copyAsync(srcDir, destDir, {
+    overwrite: true,
+    matching: src.copy
+  });
 });
 
 gulp.task('watch', function () {
@@ -214,7 +215,7 @@ gulp.task('watch', function () {
 gulp.task('build', function (cb) {
   runSequence(
     'clean',
-    ['copy:misc', 'copy:vendor', 'fonts', 'inject:scss'],
+    ['copy:vendor', 'copy:fonts', 'copy:misc', 'inject:scss'],
     ['templates', 'styles', 'scripts:coffee', 'scripts:js'],
     'inject:index',
     cb
