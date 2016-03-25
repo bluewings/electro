@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module 'electron-app', ['ui.router', 'ui.bootstrap']
+angular.module 'electron-app', ['ui.router', 'ui.bootstrap', 'angularResizable']
 .config ($stateProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise '/'
   $stateProvider.state 'wrap',

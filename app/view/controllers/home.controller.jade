@@ -55,6 +55,8 @@ div(ng-style='{ marginTop: vm.status.marginTop, height: vm.status.contentHeight 
       button.btn.btn-default(ng-click='vm.capture()')
         i.fa.fa-fw.fa-camera-retro
 
+      span.vertical-divider
+
       .form-group(uib-dropdown='')
         .input-group.input-screen-rate
           input.form-control.no-border-right(type='number', placeholder='rate', ng-model='vm.rate')
@@ -85,11 +87,29 @@ div(ng-style='{ marginTop: vm.status.marginTop, height: vm.status.contentHeight 
 
 
 
+  crop-canvas(data-canvas-options='vm.canvasOptions')
 
+  pre {{ vm.canvasOptions | json }}
   //- pre {{ vm.devices | json }}
+  //- table
+    tr
+      td
+      td
+      td
+    tr
+      td
+      td
+        canvas
+      td
+    tr
+      td
+      td
+      td
+    
+  
 
-  div(ng-if='vm.selected')
-    img(ng-src='{{ vm.selected.url }}')
+  //- div(ng-if='vm.selected')
+  //-   img(ng-src='{{ vm.selected.url }}')
 
 
   pre {{ vm.status | json }}

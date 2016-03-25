@@ -19,7 +19,9 @@
     "font-awesome": "~4.5.0",
     "angular": "~1.5.2",
     "angular-ui-router": "^0.2.18",
-    "angular-bootstrap": "^1.2.5"
+    "angular-bootstrap": "^1.2.5",
+    "angular-resizable": "^1.2.0",
+    "jquery-ui": "^1.11.4"
   },
   "overrides": {
     "bootstrap": {
@@ -32,6 +34,15 @@
         "css/font-awesome.css",
         "fonts/**"
       ]
+    },
+    "jquery-ui": {
+      "main": [
+        "jquery-ui.js",
+        "themes/base/jquery-ui.css"
+      ]
     }
+  },
+  "resolutions": {
+    "angular": "^1.5.2"
   }
 }

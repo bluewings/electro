@@ -11,6 +11,15 @@ h1 {
 }
 
 
+.vertical-divider {
+  display:inline-block;
+  height:34px;
+  margin-left:20px;
+  margin-right:20px;
+  vertical-align: bottom;
+  border-left:1px solid #ccc;
+}
+
 .navbar-default {
   margin-bottom:0;
   .navbar-form {

@@ -103,7 +103,7 @@ gulp.task('templates', function () {
 });
 
 gulp.task('styles', function () {
-  return gulp.src(src.scss.all)
+  return gulp.src(src.scss.main)
     .pipe($.plumber())
     .pipe($.sass.sync({
       outputStyle: 'expanded',

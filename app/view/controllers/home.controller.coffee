@@ -10,9 +10,16 @@ angular.module 'electron-app'
 
   thumbHeight = 80
 
+  # canvas = $element.find('canvas')[0]
+  # ctx = canvas.getContext '2d'
+
   vm.devices = devices
 
   vm.status = {}
+
+  vm.canvasOptions = {
+    test: 1234
+  }
 
   resizeHandler = ->
     # before = JSON.stringify(vm.status)
@@ -40,7 +47,57 @@ angular.module 'electron-app'
       unbind()
     return
 
+
   vm.rates = [25, 50, 75, 100, 125, 150]
+
+  $scope.$watch 'vm.selected', (selected) ->
+    if selected
+
+      console.log selected.size
+      console.log vm.status
+
+
+      renderCanvas()
+    return
+
+  $scope.$watch 'vm.rate', (rate) ->
+    renderCanvas()
+    return
+
+  timer = null
+  renderCanvas = ->
+    if vm.selected and vm.rate
+
+      vm.canvasOptions.rate = vm.rate
+      vm.canvasOptions.source = vm.selected
+
+      console.log '>>>>>>>>>>'
+
+
+      return
+
+
+
+
+      clearTimeout timer
+      timer = setTimeout ->
+        canvas.width = Math.floor(vm.selected.size.width * vm.rate / 100)
+        canvas.height = Math.floor(vm.selected.size.height * vm.rate / 100)
+
+        img = document.createElement 'img'
+        img.onload = ->
+          ctx.drawImage img,
+            0, 0, vm.selected.size.width, vm.selected.size.height
+            0, 0, canvas.width, canvas.height
+          return
+
+        img.src = vm.selected.url
+
+
+        return
+    return
+
+
 
   vm.input =
     url: 'http://m.naver.com'
@@ -86,7 +143,12 @@ angular.module 'electron-app'
             width: image.size.width * (thumbHeight / image.size.height)
             height: thumbHeight
 
-      vm.select vm.screenshots[0]
+      screenshot = vm.screenshots[0]
+      if vm.status.contentHeight < screenshot.size.height
+        vm.rate = Math.floor(vm.status.contentHeight / screenshot.size.height * 100)
+      else
+        vm.rate = 100
+      vm.select screenshot
       return
 
 

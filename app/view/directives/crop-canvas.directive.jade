@@ -1,0 +1,20 @@
+div
+  //- .panel.panel-default
+  //-   .panel-heading
+  //-     strong test
+  //-   .panel-body
+  //-     strong test
+  br
+
+  .crop-canvas
+    .resizer.resizer-top
+      i.fa.fa-fw.fa-angle-down
+    .resizer.resizer-left
+      i.fa.fa-fw.fa-angle-right
+    .resizer.resizer-right(ng-style='{ left: vm.metric.width - vm.metric.padding }')
+      i.fa.fa-fw.fa-angle-left
+    .resizer.resizer-bottom(ng-style='{ top: vm.metric.height - vm.metric.padding }')
+      i.fa.fa-fw.fa-angle-up
+    canvas
+
+  pre {{ vm.cropInfo | json }}
