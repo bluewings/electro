@@ -4,8 +4,15 @@ div
   //-     strong test
   //-   .panel-body
   //-     strong test
-  br
 
+  .panel.panel-default
+    .panel-body
+      strong X : {{ vm.cropInfo.l }}
+      strong Y : {{ vm.cropInfo.t }}
+      strong W : {{ vm.cropInfo.w }}
+      strong H : {{ vm.cropInfo.h }}
+
+  br
   .crop-canvas
     .resizer.resizer-top
       i.fa.fa-fw.fa-angle-down
@@ -17,4 +24,9 @@ div
       i.fa.fa-fw.fa-angle-up
     canvas
 
-  pre {{ vm.cropInfo | json }}
+  table
+    tr
+      td(valign='top')
+        pre {{ vm.cropInfo | json }}
+      td(valign='top')
+        pre {{ vm._canvasOptions | json }}

@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "postinstall": "cd app && npm install",
-    "start": "electron main.js"
+    "start": "electron main.js",
+    "release": "gulp release --env=production"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/atom/electron-quick-start#readme",
   "devDependencies": {
+    "asar": "^0.10.0",
     "del": "^2.2.0",
     "electron-prebuilt": "^0.36.0",
     "event-stream": "^3.3.2",
@@ -47,7 +49,13 @@
     "gulp-watch": "^4.3.5",
     "gulp-wiredep": "0.0.0",
     "main-bower-files": "^2.11.1",
-    "run-sequence": "^1.1.5"
+    "q": "^1.4.1",
+    "run-sequence": "^1.1.5",
+    "yargs": "^4.3.2"
+  },
+  "optionalDependencies": {
+    "appdmg": "^0.3.2",
+    "rcedit": "^0.4.0"
   },
   "dependencies": {
     "electron-reload": "^0.2.0",

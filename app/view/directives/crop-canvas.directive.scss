@@ -1,5 +1,11 @@
+pre {
+  text-align:left;
+}
 
 
+.panel {
+  display:inline-block;
+}
 $resizer-size:25px;
 & {
   text-align:center;

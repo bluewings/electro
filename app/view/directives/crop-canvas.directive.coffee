@@ -30,24 +30,46 @@ angular.module 'electron-app'
     vm.resizeAlso = true
 
     vm.cropInfo = {
-      top: 0
-      left: 0
-      right: 0
-      bottom: 0
+      _top: 0
+      _left: 0
+      _right: 0
+      _bottom: 0
     }
 
     img = null
+    # rate = null
 
 
     updateCropInfo = (type) ->
 
       # console.log ui
-      vm.cropInfo.top = resizer.top.height() - vm.metric.padding
-      vm.cropInfo.left = resizer.left.width() - vm.metric.padding
-      vm.cropInfo.right = resizer.right.width() - vm.metric.padding
-      vm.cropInfo.bottom = resizer.bottom.height() - vm.metric.padding
+      vm.cropInfo._top = resizer.top.height() - vm.metric.padding
+      vm.cropInfo._left = resizer.left.width() - vm.metric.padding
+      vm.cropInfo._right = resizer.right.width() - vm.metric.padding
+      vm.cropInfo._bottom = resizer.bottom.height() - vm.metric.padding
+
+
+      
 
       if img
+        rate = vm._canvasOptions.rate / 100
+        vm.cropInfo.l = vm.cropInfo._left / rate
+        vm.cropInfo.r = vm.cropInfo._right / rate
+        vm.cropInfo.t = vm.cropInfo._top / rate
+        vm.cropInfo.b = vm.cropInfo._bottom / rate
+        vm.cropInfo.w = vm._canvasOptions.source.size.width - vm.cropInfo.l - vm.cropInfo.r
+        vm.cropInfo.h = vm._canvasOptions.source.size.height - vm.cropInfo.t - vm.cropInfo.b
+        # if vm.cropInfo.l > vm._canvasOptions.source.size.width
+        #   vm.cropInfo.l = vm._canvasOptions.source.size.width
+        # if vm.cropInfo.t > vm._canvasOptions.source.size.height
+        #   vm.cropInfo.t = vm._canvasOptions.source.size.height
+        # vm.cropInfo.w = vm._canvasOptions.source.size.width - vm.cropInfo._right * rate - vm.cropInfo.l
+        
+
+
+
+
+
         ctx.clearRect 0, 0, canvas.width, canvas.height
 
         ctx.translate vm.metric.padding, vm.metric.padding
@@ -56,10 +78,12 @@ angular.module 'electron-app'
           0, 0, vm.metric.iWidth, vm.metric.iHeight
         ctx.translate -vm.metric.padding, -vm.metric.padding
 
-        top = vm.cropInfo.top + vm.metric.padding
-        left = vm.cropInfo.left + vm.metric.padding
-        right = vm.cropInfo.right + vm.metric.padding
-        bottom = vm.cropInfo.bottom + vm.metric.padding
+        top = vm.cropInfo._top + vm.metric.padding
+        left = vm.cropInfo._left + vm.metric.padding
+        right = vm.cropInfo._right + vm.metric.padding
+        bottom = vm.cropInfo._bottom + vm.metric.padding
+
+
 
         ctx.fillStyle = 'rgba(196,196,196,.5)'
 
@@ -183,5 +207,46 @@ angular.module 'electron-app'
       render()
 
       return
+
+    # prevRate = 100
+
+    $scope.$watch 'vm._canvasOptions.rate', (rate) ->
+      console.log rate
+      if rate and vm._canvasOptions.source and vm._canvasOptions.source.size
+        # rate = vm._canvasOptions.rate / prevRate
+        if typeof vm.cropInfo.l is 'number'
+          # vm.cropInfo._left = vm.cropInfo.l / rate
+          # vm.cropInfo._right = vm.cropInfo.r / rate
+          # vm.cropInfo._top = vm.cropInfo.t / rate
+          # vm.cropInfo._bottom = vm.cropInfo.b / rate
+
+
+          # prevRate = vm._canvasOptions.rate
+
+
+
+          # vm.cropInfo._top = resizer.top.height() - vm.metric.padding
+          # vm.cropInfo._left = resizer.left.width() - vm.metric.padding
+          # vm.cropInfo._right = resizer.right.width() - vm.metric.padding
+          # vm.cropInfo._bottom = resizer.bottom.height() - vm.metric.padding
+
+
+          resizer.top.height(vm.cropInfo.t * rate / 100 + vm.metric.padding)
+          resizer.left.width(vm.cropInfo.l * rate / 100 + vm.metric.padding)
+          resizer.right.width(vm.cropInfo.r * rate / 100 + vm.metric.padding)
+          resizer.bottom.height(vm.cropInfo.b * rate / 100 + vm.metric.padding)
+
+          updateCropInfo()
+
+
+          console.log '>>> set???'
+          render()
+
+
+      console.log rate
+      # render()
+
+      return
+
 
     return

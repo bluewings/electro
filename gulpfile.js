@@ -5,6 +5,7 @@
 
 require('./tasks/build');
 require('./tasks/start');
+require('./tasks/release/release');
 
 
 // gulp.task('standard', function () {

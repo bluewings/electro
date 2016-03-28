@@ -127,6 +127,9 @@ angular.module 'electron-app'
 
   vm.screenshots = []
 
+
+  blob = null
+
   ipcRenderer.on 'capture-response', (arg, images) ->
     # console.log(response);
     vm.screenshots = []
@@ -198,6 +201,17 @@ angular.module 'electron-app'
   , 500
 
   vm.save = ->
+    formData = new FormData()
+    formData.append 'data', blob
+    $.ajax
+      type: 'POST'
+      url: 'http://demo.searchad.naver.com'
+      data: formData
+      processData: false
+      contentType: false
+    .done (data) ->
+      console.log data
+      return
     return
 
   $scope.$watch 'vm.input.url', (url) ->

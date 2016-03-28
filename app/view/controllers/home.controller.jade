@@ -4,10 +4,15 @@ div(ng-style='{ marginTop: vm.status.marginTop, height: vm.status.contentHeight 
   //- span {{ vm.test }}
   //- button.btn.btn-default test
   //- input.form-control(type='text')
+  //- form.form-upload(enctype='multipart/form-data', target='upload-file')
+  //-   input(name='attachfile', type='file')
+
+  //- iframe#upload-file
 
   nav.navbar.navbar-default.navbar-fixed-top
     //- .container-fluid
     //- .pull-right
+
 
     form.navbar-form.navbar-left.form-inline
       input.form-control(type='text', placeholder='Search...',
@@ -86,10 +91,10 @@ div(ng-style='{ marginTop: vm.status.marginTop, height: vm.status.contentHeight 
         i.fa.fa-fw.fa-floppy-o
 
 
-
+  a(href='nvcapture://test') wow
   crop-canvas(data-canvas-options='vm.canvasOptions')
 
-  pre {{ vm.canvasOptions | json }}
+  //- pre {{ vm.canvasOptions | json }}
   //- pre {{ vm.devices | json }}
   //- table
     tr
@@ -112,7 +117,7 @@ div(ng-style='{ marginTop: vm.status.marginTop, height: vm.status.contentHeight 
   //-   img(ng-src='{{ vm.selected.url }}')
 
 
-  pre {{ vm.status | json }}
+  //- pre {{ vm.÷tatus | json }}
 
 
   //- p testsdfdsf
