@@ -130,6 +130,12 @@ angular.module 'electron-app'
 
   blob = null
 
+  ipcRenderer.on 'capture-response-p', (arg, images) ->
+    # console.log(response);
+    console.log '%ccapture results', 'background-color:yellow'
+    console.log arguments
+    return
+
   ipcRenderer.on 'capture-response', (arg, images) ->
     # console.log(response);
     vm.screenshots = []

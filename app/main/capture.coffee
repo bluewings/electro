@@ -13,6 +13,10 @@ ipcMain.on 'capture-request', (event, arg = {}) ->
     count: arg.count or 3
   }
 
+  event.sender.send 'capture-response-p', 'capture step 1'
+
+  event.sender.send 'capture-response-p', options
+
   for i in [0...options.count]
     do (i) ->
       promises.push screenshot(
@@ -31,7 +35,13 @@ ipcMain.on 'capture-request', (event, arg = {}) ->
     event.sender.send 'capture-response', imgs
     return
   , (err) ->
+    event.sender.send 'capture-response-p', 'capture err'
+    event.sender.send 'capture-response-p', err
     console.log err
     return
+
+  event.sender.send 'capture-response-p', 'capture step 2'
+  
+
   console.log '>>>'
   return
